@@ -130,7 +130,7 @@ curl -X POST http://127.0.0.1:8000/api/v1/chat \
 ## Sırada ne var (plandaki sonraki fazlar)
 
 
-- **Faz 5**: Memory (SQLite ile konuşma geçmişi)
+
 - **Faz 6**: Authentication (API key / JWT)
 - **Faz 7**: Docker, testler, CI/CD
 
