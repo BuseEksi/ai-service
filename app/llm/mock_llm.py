@@ -9,7 +9,7 @@ from app.llm.base import BaseLLM
 
 
 class MockLLM(BaseLLM):
-    async def generate(self, messages: list[dict], system: str | None = None) -> str:
+    async def generate(self, messages: list[dict], system: str | None = None, **kwargs) -> str:
         last_user_msg = messages[-1]["content"] if messages else ""
 
         # E-posta özetleme akışı test edilirken gerçek bir LLM gibi

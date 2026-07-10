@@ -1,9 +1,6 @@
 """Slack'e mesaj gönderen tool."""
 import httpx
-
 from app.tools.base import BaseTool
-
-
 class SlackTool(BaseTool):
     def __init__(self, bot_token: str, default_channel: str = "social"):
         self.name = "send_slack_message"

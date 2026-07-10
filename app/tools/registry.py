@@ -9,6 +9,8 @@ from app.tools.datetime_tool import DateTimeTool
 from app.tools.gmail_tool import GmailTool
 from app.tools.gmail_reader_tool import GmailReaderTool
 from app.tools.slack_tool import SlackTool
+from app.tools.employee_lookup_tool import EmployeeLookupTool
+from app.services.employee_repository import MockEmployeeRepository
 
 
 def get_available_tools() -> list[BaseTool]:
@@ -17,12 +19,10 @@ def get_available_tools() -> list[BaseTool]:
     return [
         DateTimeTool(),
 
-
         GmailTool(
             credentials_path=settings.GMAIL_CREDENTIALS_PATH,
             token_path=settings.GMAIL_TOKEN_PATH
         ),
-
 
         GmailReaderTool(
             credentials_path=settings.GMAIL_CREDENTIALS_PATH,
@@ -32,9 +32,12 @@ def get_available_tools() -> list[BaseTool]:
         SlackTool(
             bot_token=settings.SLACK_BOT_TOKEN
         ),
+
+        EmployeeLookupTool(
+            repository=MockEmployeeRepository(db_path=settings.EMPLOYEE_DB_PATH)
+        ),
     ]
 
 
 def get_tools_as_dict() -> dict[str, BaseTool]:
     return {tool.name: tool for tool in get_available_tools()}
-

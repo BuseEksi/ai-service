@@ -33,7 +33,7 @@ class SimpleAgent(BaseAgent):
         self._tools = get_tools_as_dict()
 
 
-    async def handle(self, message: str, session_id: str | None) -> ChatResponse:
+    async def handle(self, message: str, session_id: str | None, attachment_path: str | None = None) -> ChatResponse:
         if session_id is None:
             session_id = str(uuid.uuid4())
 
@@ -41,7 +41,18 @@ class SimpleAgent(BaseAgent):
         tool_schemas = [tool.get_tool_schema() for tool in self._tools.values()]
 
         history = memory_service.get_recent_history(session_id, limit=10)
-        messages = history + [{"role": "user", "content": message}]
+        # Eğer kullanıcı bir dosya yüklediyse, LLM'in bunu görmesi için mesaja ekle
+        effective_message = message
+        if attachment_path:
+            effective_message += (
+                f"\n\n[Sistem notu: Kullanıcı bir dosya yükledi. "
+                f"Bu dosyanın sunucu üzerindeki yolu: {attachment_path}. "
+                f"Kullanıcı bu dosyayı mail ile göndermek isterse, send_gmail aracını çağırırken "
+                f"attachment_path parametresine bu değeri ver.]"
+            )
+
+        messages = history + [{"role": "user", "content": effective_message}]
+        
 
         for step in range(5):
             logger.info(f"LLM'e istek gönderiliyor... (Adım {step + 1})")

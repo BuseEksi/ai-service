@@ -33,7 +33,7 @@ app/
     * ✅ **FastAPI Standartları:** Sağlıklı bir REST servisi için gerekli olan health-check,
   hata yönetimi ve merkezi logging yapısı hazırlandı.
 
-* **Agent ve Tool Yetenekleri**
+* **Agent Yetenekleri**
     * ✅ **Otonom Karar Mekanizması (Faz 3):** `SimpleAgent`, Pydantic modelleriyle
   dinamik olarak tanımlanan araç şemalarını kullanarak *function calling* yeteneğine kavuştu.
     * ✅ **Çoklu Araç Döngüsü:** Yapay zeka, karmaşık istekleri yerine getirmek için
@@ -46,6 +46,13 @@ app/
   ve aksiyon gerektirenler tespit ediliyor.
     * ✅ **Otonom Raporlama:** Tespit edilen özetler, `send_gmail` aracı ile kullanıcıya
   e-posta olarak raporlanabiliyor.
+  
+* **Aktif Toollar**
+    * ✅ **DateTimeTool:** Agent, `şu an saat kaç?` gibi sorulara yanıt verebiliyor.
+    * ✅ **GmailTool:** Agent, Gmail API'si üzerinden mail özetleme ve raporlama yapabiliyor.
+    * ✅ **SlackTool:** Slack API'si üzerinden mesaj gönderme yeteneği (opsiyonel, Slack token gerektirir).
+    * ✅ **EmployeeLookupTool:** Database üzerinden çalışan adına göre göre çalışan e-postası döndürülebiliyor.
+
 
 ## Mail özetleme özelliği
 
@@ -78,7 +85,6 @@ Her mail için şunu döndürür:
    tarayıcı açılıp izin isteyecek (bu terminalde/local'de çalıştırman gerekir,
    headless sunucuda ilk auth için ayrı bir akış gerekir)
 6. İzin verince `token.json` otomatik oluşur, sonraki çağrılarda tekrar sorulmaz
-
 `credentials.json` yoksa sistem otomatik olarak örnek (mock) mailler üzerinden çalışır,
 böylece OAuth kurulumunu bitirmeden diğer katmanlar test edilebilir.
 

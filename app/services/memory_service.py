@@ -4,7 +4,6 @@ from pathlib import Path
 
 DB_PATH = Path("memory.db")
 
-
 def init_db() -> None:
     """Uygulama başlarken bir kez çağrılır, tabloları oluşturur."""
     conn = sqlite3.connect(DB_PATH)
@@ -27,7 +26,6 @@ def init_db() -> None:
     conn.commit()
     conn.close()
 
-
 def ensure_session(session_id: str) -> None:
     """Session yoksa oluşturur (varsa dokunmaz)."""
     conn = sqlite3.connect(DB_PATH)
@@ -36,7 +34,6 @@ def ensure_session(session_id: str) -> None:
     )
     conn.commit()
     conn.close()
-
 
 def save_message(session_id: str, role: str, content: str) -> None:
     ensure_session(session_id)
@@ -47,7 +44,6 @@ def save_message(session_id: str, role: str, content: str) -> None:
     )
     conn.commit()
     conn.close()
-
 
 def get_recent_history(session_id: str, limit: int = 10) -> list[dict]:
     conn = sqlite3.connect(DB_PATH)

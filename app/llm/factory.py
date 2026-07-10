@@ -25,9 +25,11 @@ def get_llm(settings: Settings) -> BaseLLM:
     elif provider == "anthropic":
         return AnthropicLLM(
             api_key=settings.ANTHROPIC_API_KEY,
-            # Model config'te varsa al, yoksa varsayılanı kullan
+
             model=getattr(settings, "ANTHROPIC_MODEL", "claude-3-haiku-20240307")
         )
+    # Eğer yeni bir llm eklenirse buraya ekleme yapılacak
+
     else:
         # Mock veya varsayılan durum
         # return MockLLM()

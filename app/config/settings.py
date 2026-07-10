@@ -34,6 +34,9 @@ class Settings(BaseSettings):
     # --- Slack ---
     SLACK_BOT_TOKEN: str
 
+    #--- Employee DB---
+    EMPLOYEE_DB_PATH: str = "employees.db"
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
 

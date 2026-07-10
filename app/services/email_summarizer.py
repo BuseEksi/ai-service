@@ -1,6 +1,8 @@
 """
 E-postaları alıp LLM'den yapılandırılmış (structured) özet + aksiyon tespiti
-isteyen servis katmanı. Tool katmanından (ham mail verisi) ile LLM katmanı
+isteyen servis katmanı.  LLM burada bir "structured data extractor" gibi
+kullanılıyor (mail listesi ver, JSON özet al), agent gibi otonom karar vermiyor.
+ Tool katmanından (ham mail verisi) ile LLM katmanı
 (serbest metin üretir) arasındaki köprü burada kuruluyor.
 """
 import json
