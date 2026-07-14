@@ -41,6 +41,6 @@ async def chat(
             session_id=request.session_id,
             attachment_path=request.attachment_path,
         )
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         logger.exception("Chat isteği işlenirken hata oluştu")
         raise HTTPException(status_code=500, detail=str(exc)) from exc
