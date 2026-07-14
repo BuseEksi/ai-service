@@ -32,6 +32,7 @@ app/
   pattern ile sisteme entegre edildi; `LLM_PROVIDER=mock` ile anahtar gerektirmeden uçtan uca test imkanı sağlandı.
     * ✅ **FastAPI Standartları:** Sağlıklı bir REST servisi için gerekli olan health-check,
   hata yönetimi ve merkezi logging yapısı hazırlandı.
+    * ✅ **Authentication (Faz 6):** `/chat` ve `/emails` endpoint'leri `X-API-Key` header'ı ile korunuyor; `.env`'de tanımlı geçerli bir key olmadan istekler 401 ile reddediliyor.
 
 * **Agent Yetenekleri**
     * ✅ **Otonom Karar Mekanizması (Faz 3):** `SimpleAgent`, Pydantic modelleriyle
@@ -136,8 +137,6 @@ curl -X POST http://127.0.0.1:8000/api/v1/chat \
 ## Sırada ne var (plandaki sonraki fazlar)
 
 
-
-- **Faz 6**: Authentication (API key / JWT)
 - **Faz 7**: Docker, testler, CI/CD
 
 Bu fazların her biri mevcut mimariyi bozmadan eklenecek şekilde tasarlandı;
