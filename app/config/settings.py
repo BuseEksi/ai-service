@@ -3,6 +3,7 @@ Merkezi konfigürasyon yönetimi.
 Tüm ortam değişkenleri buradan okunur, kodun başka hiçbir yerinde
 doğrudan os.environ kullanılmaz. Böylece config kaynağı tek yerden yönetilir.
 """
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,6 +12,21 @@ class Settings(BaseSettings):
     APP_NAME: str = "AI Service"
     DEBUG: bool = True
     API_PREFIX: str = "/api/v1"
+
+    # --- Faz 6: Authentication ---
+    # .env içinde virgülle ayrılmış birden fazla key tanımlanabilir:
+    # API_KEYS=argeset-dev-key,ceng-abi-key
+    # Böylece her tüketici (n8n, SetXRM, manuel test) ayrı key kullanabilir
+    # ve gerekirse tek bir key iptal edilebilir.
+    # NOT: pydantic-settings, list[str] tipindeki alanları env'den JSON
+    # olarak parse etmeye çalışır (virgüllü düz string'i JSON sanıp hata
+    # verir). Bu yüzden ham string olarak tutup API_KEYS property'siyle
+    # split ediyoruz.
+    API_KEYS_RAW: str = Field(default="", validation_alias="API_KEYS")
+
+    @property
+    def API_KEYS(self) -> list[str]:
+        return [key.strip() for key in self.API_KEYS_RAW.split(",") if key.strip()]
 
     # LLM Sağlayıcı Seçimi
     LLM_PROVIDER: str = "mock"
