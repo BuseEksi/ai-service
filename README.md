@@ -1,5 +1,7 @@
 # AI Service - v1 (İlk Çalışan Versiyon)
 
+[![Testler](https://github.com/BuseEksi/ai-service/actions/workflows/tests.yml/badge.svg)](https://github.com/BuseEksi/ai-service/actions/workflows/tests.yml)
+
 Bu, projendeki **AI_Service_Detailed_Project_Plan** dokümanının Faz 1-4'ünün
 minimal ama gerçekten çalışan bir versiyonu. Katman mimarisi (API → Agent →
 Tool → LLM) tam olarak plandaki gibi kuruldu; ileride her katman ayrı ayrı
@@ -16,7 +18,7 @@ app/
   api/routes/     → HTTP endpoint'leri (health, chat)
   agents/          → SimpleAgent: tool gerekip gerekmediğine karar verir
   tools/           → BaseTool arayüzü + DateTimeTool (çalışır) + GmailTool (iskelet)
-  llm/             → BaseLLM arayüzü + AnthropicLLM + MockLLM + factory
+  llm/             → BaseLLM arayüzü + AnthropicLLM + MistralLLM + OpenAILLM + MockLLM + factory
   schemas/         → Pydantic request/response modelleri
   services/        → Dependency injection (FastAPI Depends)
   config/          → .env okuyan Settings sınıfı
@@ -28,7 +30,7 @@ app/
 * **Mimari ve Altyapı**
     * ✅ **Katmanlı Mimari:** API → Agent → Tool → LLM akışı; her katmanın tek bir 
   sorumluluğu olacak şekilde başarıyla kuruldu.
-    * ✅ **Provider-Independent LLM:** Anthropic Claude ve Mistral desteği factory 
+    * ✅ **Provider-Independent LLM:** Anthropic Claude, Mistral ve OpenAI desteği factory 
   pattern ile sisteme entegre edildi; `LLM_PROVIDER=mock` ile anahtar gerektirmeden uçtan uca test imkanı sağlandı.
     * ✅ **FastAPI Standartları:** Sağlıklı bir REST servisi için gerekli olan health-check,
   hata yönetimi ve merkezi logging yapısı hazırlandı.
@@ -108,6 +110,10 @@ LLM_PROVIDER=mock
 # Gerçek Claude cevapları almak için:
 LLM_PROVIDER=anthropic
 ANTHROPIC_API_KEY=sk-ant-...
+
+# OpenAI kullanmak için:
+LLM_PROVIDER=openai
+OPENAI_API_KEY=sk-...
 ```
 
 ## Çalıştırma
@@ -134,10 +140,30 @@ curl -X POST http://127.0.0.1:8000/api/v1/chat \
   -d '{"message": "şu an saat kaç?"}'
 ```
 
+## Testler
+
+LLM katmanı (`AnthropicLLM`, `MistralLLM`, `OpenAILLM`, `factory.get_llm`) için
+unit testler mevcut. Testler gerçek API çağrısı yapmaz; provider client'ları
+mock'lanır.
+
+```bash
+pip install -r requirements-dev.txt
+pytest -v
+```
+
+Sadece tek bir dosyayı çalıştırmak için:
+
+```bash
+pytest tests/test_openai_llm.py -v
+```
+
+Testler her push'ta ve `main`'e açılan her pull request'te
+[GitHub Actions](.github/workflows/tests.yml) ile otomatik çalışıyor.
+
 ## Sırada ne var (plandaki sonraki fazlar)
 
-
-- **Faz 7**: Docker, testler, CI/CD
+- ✅ ~~Testler, CI/CD~~ → LLM katmanı için unit testler ve GitHub Actions ile CI kuruldu.
+- **Faz 7**: Docker
 
 Bu fazların her biri mevcut mimariyi bozmadan eklenecek şekilde tasarlandı;
 katmanlar birbirinden bağımsız olduğu için örneğin memory eklemek Agent
