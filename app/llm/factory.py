@@ -6,6 +6,7 @@ from app.config.settings import Settings
 from app.llm.base import BaseLLM
 from app.llm.anthropic_llm import AnthropicLLM
 from app.llm.mistral_llm import MistralLLM
+from app.llm.openai_llm import OpenAILLM
 
 
 # Eğer sisteminde bir MockLLM varsa onu da import edebilirsin, örneğin:
