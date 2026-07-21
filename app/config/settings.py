@@ -38,6 +38,10 @@ class Settings(BaseSettings):
     MISTRAL_API_KEY: str | None = None
     MISTRAL_MODEL: str = "mistral-large-latest"
 
+    # --- OpenAI Ayarları ---
+    OPENAI_API_KEY: str | None = None
+    OPENAI_MODEL: str = "gpt-4o-mini"
+
     #---- Başka AI eklenmek istenirse buraya eklenir ----
 
 

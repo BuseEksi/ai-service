@@ -28,6 +28,11 @@ def get_llm(settings: Settings) -> BaseLLM:
 
             model=getattr(settings, "ANTHROPIC_MODEL", "claude-3-haiku-20240307")
         )
+    elif provider == "openai":
+        return OpenAILLM(
+            api_key=settings.OPENAI_API_KEY,
+            model=getattr(settings, "OPENAI_MODEL", "gpt-4o-mini")
+        )
     # Eğer yeni bir llm eklenirse buraya ekleme yapılacak
 
     else:
